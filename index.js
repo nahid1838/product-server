@@ -40,6 +40,23 @@ app.get("/products", async (req, res) => {
   res.send(result);
 })
 
+app.patch("/products/:id", async (req, res) => {
+  const data = req.body;
+  const {id} = req.params;
+
+  const result = await productCollection.updateOne(
+    {_id: new ObjectId(id)},
+    {$set: data}
+  )
+  res.send(result);
+})
+
+app.delete("/products/:id", async (req, res) => {
+  const {id} = req.params;
+  const result = await productCollection.deleteOne({_id: new ObjectId(id)});
+  res.send(result)
+})
+
 app.get("/products/:id", async (req, res) => {
   const id = req.params.id;
   const query = { _id: new ObjectId(id) };
